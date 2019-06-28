@@ -2,6 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+//player 1 X
+//player 2 O
+
+let counter = true;
+
 class Square extends React.Component {
     constructor(props){
         super(props);
@@ -11,12 +16,16 @@ class Square extends React.Component {
     }
 
     setter(){
-        if(this.state.value == 'X'){
-            this.setState({value: null});
+        if(this.state.value !== null){
+            return;
         }
-        else{
+        if(counter){
             this.setState({value: 'X'});
         }
+        else{
+            this.setState({value: 'O'});
+        }
+        counter = !counter;
     }
 
     render() {
@@ -31,6 +40,13 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            turn: 1
+        }
+    }
+
     renderSquare(i) {
         return <Square value={i}/>;
     }
