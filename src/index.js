@@ -5,7 +5,6 @@ import './index.css';
 //player 1 X
 //player 2 O
 
-let counter = true;
 
 class Square extends React.Component {
     constructor(props){
@@ -15,24 +14,25 @@ class Square extends React.Component {
         }
     }
 
-    setter(){
+    setter = () =>{
         if(this.state.value !== null){
             return;
         }
-        if(counter){
+        if(!this.props.turn){
             this.setState({value: 'X'});
         }
         else{
             this.setState({value: 'O'});
         }
-        counter = !counter;
+        this.props.toggleTurn(this.props.index)
     }
 
     render() {
+        console.log('rendering this.props.index: ', this.props.index, ' value: ', this.props.value);
         return (
             <button
                 className="square"
-                onClick={() => this.setter()}>
+                onClick={this.setter}>
                 {this.state.value}
             </button>
         );
@@ -43,20 +43,32 @@ class Board extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            turn: 1
+            turn: false,
+            status: 'turn X'
         }
     }
 
+    toggleTurn = (index) => {
+        console.log('in toggle turn!');
+        let status = 'turn X';
+        if(!this.state.turn){
+            status = 'turn O';
+        }
+        this.setState({ turn: !this.state.turn, status: status});
+    }
+
+
     renderSquare(i) {
-        return <Square value={i}/>;
+
+        return <Square index={i} turn={this.state.turn} toggleTurn={this.toggleTurn}/>;
     }
 
     render() {
-        const status = 'Next player: X';
-
+        //const status = 'Next player: X';
+        console.log('rendering board! ');
         return (
             <div>
-                <div className="status">{status}</div>
+                <div className="status">{this.state.status}</div>
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}
