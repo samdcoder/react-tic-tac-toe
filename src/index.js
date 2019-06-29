@@ -15,7 +15,7 @@ class Square extends React.Component {
     }
 
     setter = () => {
-        if(this.state.value !== null){
+        if(this.props.value !== null){
             return;
         }
         if(!this.props.turn){
@@ -32,7 +32,7 @@ class Square extends React.Component {
             <button
                 className="square"
                 onClick={this.setter}>
-                {this.state.value}
+                {this.props.value}
             </button>
         );
     }
@@ -40,9 +40,8 @@ class Square extends React.Component {
 
 class Board extends React.Component {
 
-    constructor(props){
-        super(props);
-        this.state = {
+    getInitialState = () => {
+        const initialState = {
             turn: false,
             status: 'turn X',
             board: [
@@ -50,15 +49,24 @@ class Board extends React.Component {
                 [null,null,null],
                 [null,null,null]
             ]
-        }
+        };
+        return initialState;
+    }
+
+
+    constructor(props){
+        super(props);
+        this.state = this.getInitialState()
+    }
+
+    resetState = () => {
+        this.setState(this.getInitialState())
     }
 
     toggleTurn = (i,j) => {
-        console.log('in toggle turn i => ', i, ' j => ', j);
         //change the board state here for the entire board
         //call the compute method call after changing the entire state
         let updateBoard = this.state.board;
-        console.log('updateBoard: ', updateBoard);
         updateBoard[i][j] = 'O';
         let status = 'turn X';
 
@@ -70,15 +78,11 @@ class Board extends React.Component {
     }
 
     computeRow = () => {
-        //this function decides if the  game if the game is finished or not!
-        console.log('state updated!');
-        console.log('board: ', this.state.board);
         //check row
         let matchCounter;
         for(let i = 0; i < 3; i++){
             let firstValue = this.state.board[i][0];
             matchCounter = 0;
-
             if(firstValue === null){
                 continue;
             }
@@ -90,15 +94,11 @@ class Board extends React.Component {
             }
             if(matchCounter > 2){
                 alert('Row Win!');
-                matchCounter = -1;
-                // -1 means win
-                break;
+                this.resetState();
+                return;
             }
         }
-        if(matchCounter !== -1) {
-            this.computeColumn();
-        }
-
+        this.computeColumn();
     }
 
     computeColumn = () => {
@@ -118,20 +118,18 @@ class Board extends React.Component {
                 matchCounter++;
             }
             if(matchCounter > 2){
-                matchCounter = -1;
                 alert('Column Win!');
-                break;
+                this.resetState();
+                return;
             }
 
         }
-        if(matchCounter !== -1){
-            this.computeDiagonal();
-        }
-
+        this.computeDiagonal();
     }
 
     computeDiagonal = () => {
         let matchCounter = 0;
+        //top left to bottom right
         for(let i = 0; i < 3; i++){
             let firstValue = this.state.board[0][0];
             if(firstValue === null){
@@ -144,36 +142,38 @@ class Board extends React.Component {
         }
         if(matchCounter > 2){
             alert('Diagonal 1 Win');
+            this.resetState();
             return;
         }
         //compute second diagonal if first diagonal is not win
-       matchCounter = 0;
+        matchCounter = 0;
         let j = 2;
         for(let i = 0; i < 3; i++){
             let firstValue = this.state.board[0][2];
             if(firstValue === null){
-                break;
+                return;
             }
             if(this.state.board[i][j] !== firstValue){
-                break;
+                return;
             }
             matchCounter++;
             j--;
         }
         if(matchCounter > 2){
             alert('Diagonal 2 Win!');
+            this.resetState();
         }
 
     }
 
     renderSquare(i,j) {
 
-        return <Square row={i} col={j} turn={this.state.turn} toggleTurn={this.toggleTurn}/>;
+        return <Square row={i} col={j} value = {this.state.board[i][j]} turn={this.state.turn} toggleTurn={this.toggleTurn}/>;
     }
 
     render() {
+        console.log('rendering board! state => ', this.state);
         //const status = 'Next player: X';
-        console.log('rendering board! ');
         return (
             <div>
                 <div className="status">{this.state.status}</div>
