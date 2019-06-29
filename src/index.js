@@ -40,6 +40,17 @@ class Square extends React.Component {
 
 class Board extends React.Component {
 
+    displayWinner = () => {
+        let winner;
+        if(this.state.turn){
+            winner = "Player 1";
+        }
+        else{
+            winner = "Player2";
+        }
+        alert(winner + " wins!");
+    }
+
     getInitialState = () => {
         const initialState = {
             turn: false,
@@ -52,7 +63,6 @@ class Board extends React.Component {
         };
         return initialState;
     }
-
 
     constructor(props){
         super(props);
@@ -93,7 +103,7 @@ class Board extends React.Component {
                 matchCounter++;
             }
             if(matchCounter > 2){
-                alert('Row Win!');
+                this.displayWinner();
                 this.resetState();
                 return;
             }
@@ -118,7 +128,7 @@ class Board extends React.Component {
                 matchCounter++;
             }
             if(matchCounter > 2){
-                alert('Column Win!');
+                this.displayWinner();
                 this.resetState();
                 return;
             }
@@ -141,7 +151,7 @@ class Board extends React.Component {
             matchCounter++;
         }
         if(matchCounter > 2){
-            alert('Diagonal 1 Win');
+            this.displayWinner();
             this.resetState();
             return;
         }
@@ -160,10 +170,9 @@ class Board extends React.Component {
             j--;
         }
         if(matchCounter > 2){
-            alert('Diagonal 2 Win!');
+            this.displayWinner();
             this.resetState();
         }
-
     }
 
     renderSquare(i,j) {
