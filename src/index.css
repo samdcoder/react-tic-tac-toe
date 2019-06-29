@@ -7,6 +7,10 @@ ol, ul {
     padding-left: 30px;
 }
 
+.new-game{
+    text-align: center;
+    padding-bottom: 50px;
+}
 .board-row:after {
     clear: both;
     content: "";
@@ -27,12 +31,12 @@ ol, ul {
     font-size: 24px;
     font-weight: bold;
     line-height: 34px;
-    height: 100px;
+    height: 130px;
     margin-right: -1px;
     margin-top: -1px;
     padding: 0;
     text-align: center;
-    width: 100px;
+    width: 130px;
 }
 
 .square:focus {

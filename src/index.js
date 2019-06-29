@@ -74,8 +74,6 @@ class Board extends React.Component {
     }
 
     toggleTurn = (i,j) => {
-        //change the board state here for the entire board
-        //call the compute method call after changing the entire state
         let updateBoard = this.state.board;
         updateBoard[i][j] = 'O';
         let status = 'turn X';
@@ -181,11 +179,11 @@ class Board extends React.Component {
     }
 
     render() {
-        console.log('rendering board! state => ', this.state);
-        //const status = 'Next player: X';
         return (
+
             <div>
                 <div className="status">{this.state.status}</div>
+                <div className="new-game"> <button onClick={this.resetState}> New Game </button> </div>
                 <div className="board-row">
                     {this.renderSquare(0, 0)}
                     {this.renderSquare(0, 1)}
@@ -221,8 +219,6 @@ class Game extends React.Component {
         );
     }
 }
-
-// ========================================
 
 ReactDOM.render(
     <Game />,
