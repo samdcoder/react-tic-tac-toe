@@ -86,9 +86,7 @@ class Board extends React.Component {
                 if(this.state.board[i][j] !== firstValue){
                     break;
                 }
-                else{
-                    matchCounter++;
-                }
+                matchCounter++;
             }
             if(matchCounter > 2){
                 alert('Win!');
@@ -104,9 +102,10 @@ class Board extends React.Component {
     }
 
     computeColumn = () => {
+        let matchCounter;
         for(let j = 0; j < 3; j++){
             let firstValue = this.state.board[0][j];
-            let matchCounter = 0;
+            matchCounter = 0;
 
             if(firstValue === null){
                 continue;
@@ -116,20 +115,52 @@ class Board extends React.Component {
                 if(this.state.board[i][j] !== firstValue){
                     break;
                 }
-                else{
-                    matchCounter++;
-                }
+                matchCounter++;
             }
             if(matchCounter > 2){
+                matchCounter = -1;
                 alert('Win!');
                 break;
             }
 
         }
+        if(matchCounter !== -1){
+            this.computeDiagonal();
+        }
 
     }
 
     computeDiagonal = () => {
+        let matchCounter = 0;
+        for(let i = 0; i < 3; i++){
+            let firstValue = this.state.board[0][0];
+            if(this.state.board[i][i] !== firstValue){
+                break;
+            }
+            matchCounter++;
+        }
+        if(matchCounter > 2){
+            alert('Win');
+            return;
+        }
+        //compute second diagonal if first diagonal is not win
+       matchCounter = 0;
+        for(let i = 0; i < 3; i++){
+            let firstValue = this.state.board[0][2];
+            if(firstValue === null){
+                continue;
+            }
+            for(let j = 2; j > 0; j--){
+                if(this.state.board[i][j] !== firstValue){
+                    break;
+                }
+                matchCounter++;
+            }
+        }
+        if(matchCounter > 2){
+            alert('Win');
+            return;
+        }
 
     }
 
