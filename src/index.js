@@ -74,10 +74,10 @@ class Board extends React.Component {
         console.log('state updated!');
         console.log('board: ', this.state.board);
         //check row
-
+        let matchCounter;
         for(let i = 0; i < 3; i++){
             let firstValue = this.state.board[i][0];
-            let matchCounter = 0;
+            matchCounter = 0;
 
             if(firstValue === null){
                 continue;
@@ -92,14 +92,45 @@ class Board extends React.Component {
             }
             if(matchCounter > 2){
                 alert('Win!');
+                matchCounter = -1;
+                // -1 means win
                 break;
             }
+        }
+        if(matchCounter !== -1) {
+            this.computeColumn();
         }
 
     }
 
     computeColumn = () => {
-        
+        for(let j = 0; j < 3; j++){
+            let firstValue = this.state.board[0][j];
+            let matchCounter = 0;
+
+            if(firstValue === null){
+                continue;
+            }
+
+            for(let i = 0; i < 3; i++){
+                if(this.state.board[i][j] !== firstValue){
+                    break;
+                }
+                else{
+                    matchCounter++;
+                }
+            }
+            if(matchCounter > 2){
+                alert('Win!');
+                break;
+            }
+
+        }
+
+    }
+
+    computeDiagonal = () => {
+
     }
 
     renderSquare(i,j) {
