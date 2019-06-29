@@ -15,6 +15,9 @@ ol, ul {
 
 .status {
     margin-bottom: 10px;
+    text-align: center;
+    font-size: 30px;
+    padding-bottom: 50px;
 }
 
 .square {

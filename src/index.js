@@ -14,7 +14,7 @@ class Square extends React.Component {
         }
     }
 
-    setter = () =>{
+    setter = () => {
         if(this.state.value !== null){
             return;
         }
@@ -24,11 +24,11 @@ class Square extends React.Component {
         else{
             this.setState({value: 'O'});
         }
-        this.props.toggleTurn(this.props.index)
+        this.props.toggleTurn(this.props.row, this.props.col)
     }
 
     render() {
-        console.log('rendering this.props.index: ', this.props.index, ' value: ', this.props.value);
+        console.log('rendering this.props.index: ', this.props.row, ',', this.props.col);
         return (
             <button
                 className="square"
@@ -40,27 +40,43 @@ class Square extends React.Component {
 }
 
 class Board extends React.Component {
+
     constructor(props){
         super(props);
         this.state = {
             turn: false,
-            status: 'turn X'
+            status: 'turn X',
+            board: [
+                [null,null,null],
+                [null,null,null],
+                [null,null,null]
+            ]
         }
     }
 
-    toggleTurn = (index) => {
-        console.log('in toggle turn!');
+    toggleTurn = (i,j) => {
+        console.log('in toggle turn i => ', i, ' j => ', j);
+        //change the board state here for the entire board
+        //call the compute method call after changing the entire state
+        let updateBoard = this.state.board;
+        console.log('updateBoard: ', updateBoard);
+        updateBoard[i][j] = 'O';
         let status = 'turn X';
+
         if(!this.state.turn){
             status = 'turn O';
+            updateBoard[i][j] = 'X';
         }
-        this.setState({ turn: !this.state.turn, status: status});
+        this.setState({ turn: !this.state.turn, status: status, board: updateBoard});
     }
 
+    compute = () => {
 
-    renderSquare(i) {
+    }
 
-        return <Square index={i} turn={this.state.turn} toggleTurn={this.toggleTurn}/>;
+    renderSquare(i,j) {
+
+        return <Square row={i} col={j} turn={this.state.turn} toggleTurn={this.toggleTurn}/>;
     }
 
     render() {
@@ -70,19 +86,19 @@ class Board extends React.Component {
             <div>
                 <div className="status">{this.state.status}</div>
                 <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
+                    {this.renderSquare(0, 0)}
+                    {this.renderSquare(0, 1)}
+                    {this.renderSquare(0, 2)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
+                    {this.renderSquare(1, 0)}
+                    {this.renderSquare(1, 1)}
+                    {this.renderSquare(1, 2)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
+                    {this.renderSquare(2, 0)}
+                    {this.renderSquare(2, 1)}
+                    {this.renderSquare(2, 2)}
                 </div>
             </div>
         );
