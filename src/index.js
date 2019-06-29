@@ -89,7 +89,7 @@ class Board extends React.Component {
                 matchCounter++;
             }
             if(matchCounter > 2){
-                alert('Win!');
+                alert('Row Win!');
                 matchCounter = -1;
                 // -1 means win
                 break;
@@ -119,7 +119,7 @@ class Board extends React.Component {
             }
             if(matchCounter > 2){
                 matchCounter = -1;
-                alert('Win!');
+                alert('Column Win!');
                 break;
             }
 
@@ -134,32 +134,34 @@ class Board extends React.Component {
         let matchCounter = 0;
         for(let i = 0; i < 3; i++){
             let firstValue = this.state.board[0][0];
+            if(firstValue === null){
+                break;
+            }
             if(this.state.board[i][i] !== firstValue){
                 break;
             }
             matchCounter++;
         }
         if(matchCounter > 2){
-            alert('Win');
+            alert('Diagonal 1 Win');
             return;
         }
         //compute second diagonal if first diagonal is not win
        matchCounter = 0;
+        let j = 2;
         for(let i = 0; i < 3; i++){
             let firstValue = this.state.board[0][2];
             if(firstValue === null){
-                continue;
+                break;
             }
-            for(let j = 2; j > 0; j--){
-                if(this.state.board[i][j] !== firstValue){
-                    break;
-                }
-                matchCounter++;
+            if(this.state.board[i][j] !== firstValue){
+                break;
             }
+            matchCounter++;
+            j--;
         }
         if(matchCounter > 2){
-            alert('Win');
-            return;
+            alert('Diagonal 2 Win!');
         }
 
     }
