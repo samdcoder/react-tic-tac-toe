@@ -28,7 +28,6 @@ class Square extends React.Component {
     }
 
     render() {
-        console.log('rendering this.props.index: ', this.props.row, ',', this.props.col);
         return (
             <button
                 className="square"
@@ -67,11 +66,40 @@ class Board extends React.Component {
             status = 'turn O';
             updateBoard[i][j] = 'X';
         }
-        this.setState({ turn: !this.state.turn, status: status, board: updateBoard});
+        this.setState({ turn: !this.state.turn, status: status, board: updateBoard}, this.computeRow);
     }
 
-    compute = () => {
+    computeRow = () => {
+        //this function decides if the  game if the game is finished or not!
+        console.log('state updated!');
+        console.log('board: ', this.state.board);
+        //check row
 
+        for(let i = 0; i < 3; i++){
+            let firstValue = this.state.board[i][0];
+            let matchCounter = 0;
+
+            if(firstValue === null){
+                continue;
+            }
+            for(let j = 0; j < 3; j++){
+                if(this.state.board[i][j] !== firstValue){
+                    break;
+                }
+                else{
+                    matchCounter++;
+                }
+            }
+            if(matchCounter > 2){
+                alert('Win!');
+                break;
+            }
+        }
+
+    }
+
+    computeColumn = () => {
+        
     }
 
     renderSquare(i,j) {
