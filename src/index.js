@@ -150,10 +150,10 @@ class Board extends React.Component {
         for(let i = 0; i < 3; i++){
             let firstValue = this.state.board[0][2];
             if(firstValue === null){
-                return;
+                break;
             }
             if(this.state.board[i][j] !== firstValue){
-                return;
+                break;
             }
             matchCounter++;
             j--;
@@ -161,7 +161,29 @@ class Board extends React.Component {
         if(matchCounter > 2){
             this.displayWinner();
             this.resetState();
+            return;
         }
+        this.isGameComplete();
+
+    }
+
+    isGameComplete = () => {
+        let board = this.state.board;
+        let nullFlag = false;
+        for(let i = 0; i < 3; i++){
+            for(let j = 0; j < 3; j++){
+                if(board[i][j] === null){
+                    nullFlag = true;
+                    break;
+                }
+            }
+        }
+        if(!nullFlag){
+            alert("The game is drawn!");
+            this.resetState();
+            return;
+        }
+        
     }
 
     renderSquare(i,j) {
