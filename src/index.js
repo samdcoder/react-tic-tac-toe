@@ -41,12 +41,9 @@ class Square extends React.Component {
 class Board extends React.Component {
 
     displayWinner = () => {
-        let winner;
+        let winner = "Player 2";
         if(this.state.turn){
             winner = "Player 1";
-        }
-        else{
-            winner = "Player2";
         }
         alert(winner + " wins!");
     }
