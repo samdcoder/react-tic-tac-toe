@@ -1,10 +1,7 @@
-import React from 'react';
+import
+React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
-//player 1 X
-//player 2 O
-
 
 class Square extends React.Component {
     constructor(props){
@@ -111,11 +108,9 @@ class Board extends React.Component {
         for(let j = 0; j < 3; j++){
             let firstValue = this.state.board[0][j];
             matchCounter = 0;
-
             if(firstValue === null){
                 continue;
             }
-
             for(let i = 0; i < 3; i++){
                 if(this.state.board[i][j] !== firstValue){
                     break;
@@ -150,7 +145,6 @@ class Board extends React.Component {
             this.resetState();
             return;
         }
-        //compute second diagonal if first diagonal is not win
         matchCounter = 0;
         let j = 2;
         for(let i = 0; i < 3; i++){
@@ -207,10 +201,6 @@ class Game extends React.Component {
             <div className="game">
                 <div className="game-board">
                     <Board />
-                </div>
-                <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
                 </div>
             </div>
         );
